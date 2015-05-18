@@ -42,16 +42,17 @@ import com.sun.btrace.annotations.*;
  * ClassLoader.defineClass method to detect successful
  * class load.
  */
-@BTrace // 标识一个BTrace类
+@BTrace // 标识一个“BTrace类”
 public class Classload {
 
-    @OnMethod( // 指定类方法中的一个"探测点" (追踪行为方法)
-            clazz = "+java.lang.ClassLoader", // 待探测/追踪的类名
-            method = "defineClass", // 待探测/追踪的方法名
-            location = @Location(Kind.RETURN)) // 标识精确的"位置"或感兴趣的"探测点"，以便在方法集中进行探测
-    public static void defineclass(@Return Class cl) { // 包含"方法的返回值"信息
-        println(Strings.strcat("loaded ", Reflective.name(cl))); // 返回给定类对象的名称
-        Threads.jstack(); // 打印当前线程的"Java栈踪迹"信息
+    @OnMethod( // 指定一个"探测点"（追踪行为方法）
+            clazz = "+java.lang.ClassLoader", // 待探测或追踪的“全路径类名/正则匹配/注解类”
+            method = "defineClass", // 待探测或追踪的“方法名/正则匹配/注解方法”
+            location = @Location(Kind.RETURN)) // 标识精确的“位置”或感兴趣的“探测点”，以便在“方法集”中进行探测
+    public static void defineclass(@Return Class<?> cl) { // 表示“被探测方法的返回值”
+        println(Strings.strcat("loaded ", Reflective.name(cl))); // 返回“给定类型对象的名称”
+//        println(concat("loaded ", Reflective.name(cl)));
+        Threads.jstack(); // 打印“当前线程的Java调用栈信息”
         println("==========================");
     }
 

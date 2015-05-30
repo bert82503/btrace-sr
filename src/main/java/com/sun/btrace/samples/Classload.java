@@ -37,10 +37,9 @@ import com.sun.btrace.annotations.*;
  *     以便检测类被成功加载了。
  * </p>
  * A simple BTrace program that prints stack trace
- * whenever a class is loaded by a user-defined
- * class loader. We insert a return point probe in
- * ClassLoader.defineClass method to detect successful
- * class load.
+ * whenever a class is loaded by a user-defined class loader.
+ * We insert a return point probe in
+ * ClassLoader.defineClass method to detect successful class load.
  */
 @BTrace // 标识一个“BTrace类”
 public class Classload {

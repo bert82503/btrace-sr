@@ -26,7 +26,7 @@
 package com.sun.btrace.samples;
 
 import com.sun.btrace.annotations.*;
-import static com.sun.btrace.BTraceUtils.Threads.*;
+import static com.sun.btrace.BTraceUtils.Threads.*; // Threads：“死锁检测、线程的调用栈信息、线程”辅助工具类
 
 /**
  * <p>

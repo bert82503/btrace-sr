@@ -28,21 +28,32 @@ package com.sun.btrace.samples;
 import com.sun.btrace.annotations.*;
 import static com.sun.btrace.BTraceUtils.*;
 
-/*
+/**
+ * <p>
+ *     一个简单的示例：在启动时转储“目标JVM的堆内存”并退出追踪程序。
+ *
+ *     本BTrace程序模仿JDK的“jmap -dump”命令行工具。
+ * </p>
  * A simple sample that dumps heap of the target at start and exits.
  * This BTrace program mimics the jmap tool (with -dump option).
  */
 @BTrace
 public class JMap {
-    static {
-        String name;
-        if (Sys.$length() == 3) {
-            name = Sys.$(2);
+
+    static { // 静态语句块
+        String dumpedHeapFileName; // 保存“Java内存堆快照”的文件名
+        if (Sys.$length() == 3) { // 命令行参数的数量
+            dumpedHeapFileName = Sys.$(2); // 返回第2个命令行参数
         } else {
-            name = "heap.bin";
+            dumpedHeapFileName = "heap.bin";
         }
-        Sys.Memory.dumpHeap(name);
+
+        // 转储“Java堆的快照”到一个以hprof二进制格式的文件
+        // 在追踪的应用的当前目录下，"./btrace<pid>/<btrace-class>/"目录会被创建.
+        Sys.Memory.dumpHeap(dumpedHeapFileName);
+
         println("heap dumped!");
         Sys.exit(0);
     }
+
 }

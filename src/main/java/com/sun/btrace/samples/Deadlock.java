@@ -31,6 +31,7 @@ import static com.sun.btrace.BTraceUtils.Threads.*; // Threads：“死锁检测
 /**
  * <p>
  *     演示内建的“死锁检测(deadlocks)”函数。
+ *
  *     本示例会每隔4秒钟打印“检测到的死锁信息”。
  * </p>
  * This BTrace program demonstrates deadlocks built-in function.

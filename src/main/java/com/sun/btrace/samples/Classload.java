@@ -33,8 +33,9 @@ import com.sun.btrace.annotations.*;
 /**
  * <p>
  *     当"一个类"被"用户定义的类加载器"加载时，则打印"栈踪迹"信息。
+ *
  *     在"ClassLoader.defineClass()"方法里插入一个"返回的探测点"，
- *     以便检测类被成功加载了。
+ *     以便探测类被成功加载了。
  * </p>
  * A simple BTrace program that prints stack trace
  * whenever a class is loaded by a user-defined class loader.

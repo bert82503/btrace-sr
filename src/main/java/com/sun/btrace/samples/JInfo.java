@@ -28,19 +28,26 @@ package com.sun.btrace.samples;
 import com.sun.btrace.annotations.*;
 import static com.sun.btrace.BTraceUtils.*;
 
-/*
+/**
+ * <p>
+ *     一个简单的示例，打印“所有系统属性”、“BTrace程序的输入参数列表”、“操作系统的所有环境变量值”并退出。
+ *
+ *     本BTrace程序模仿JDK的“jinfo”命令行工具。
+ * </p>
  * A simple sample that prints system properties, flags and exits.
  * This BTrace program mimics the jinfo command line tool in JDK.
  */
 @BTrace
 public class JInfo {
+
     static {
         println("System Properties:");
-        printProperties();
+        printProperties(); // Sys.Env.printProperties()：打印“所有系统属性”信息
         println("VM Flags:");
-        printVmArguments();
+        printVmArguments(); // Sys.VM.printVmArguments()：打印“BTrace程序的输入参数列表”
         println("OS Enviroment:");
-        printEnv();
-        exit(0);
+        printEnv(); // Sys.Env.printEnv()：打印“操作系统的所有环境变量值”
+        exit(0); // Sys.exit(exitCode)：退出“客户端追踪会话”，即终止“追踪行为方法”
     }
+
 }

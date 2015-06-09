@@ -30,7 +30,7 @@ import static com.sun.btrace.BTraceUtils.*;
 
 /**
  * <p>
- *     一个简单的示例：在启动时转储“目标JVM的堆内存”并退出追踪程序。
+ *     一个简单的示例：在启动时转储“目标JVM的堆内存”并退出“追踪程序”。
  *
  *     本BTrace程序模仿JDK的“jmap -dump”命令行工具。
  * </p>

@@ -29,15 +29,22 @@ import com.sun.btrace.annotations.*;
 import static com.sun.btrace.BTraceUtils.Sys.*;
 import static com.sun.btrace.BTraceUtils.Threads.*;
 
-/*
- * A simple sample prints stack traces and exits. This
- * BTrace program mimics the jstack command line tool in JDK.
+/**
+ * <p>
+ *     一个简单的示例：打印所有线程的“调用栈信息”并退出“追踪程序”。
+ *
+ *     本BTrace程序模仿JDK的“jstack”命令行工具。
+ * </p>
+ * A simple sample prints stack traces and exits.
+ * This BTrace program mimics the jstack command line tool in JDK.
  */
 @BTrace
 public class JStack {
+
     static {
-        deadlocks(false);
-        jstackAll();
+        deadlocks(false); // 只打印“检测到的死锁线程信息”，不打印“死锁线程的调用栈信息”
+        jstackAll(); // 打印“所有Java线程的调用栈信息”
         exit(0);
     }
+
 }

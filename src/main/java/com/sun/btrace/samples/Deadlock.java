@@ -32,7 +32,7 @@ import static com.sun.btrace.BTraceUtils.Threads.*; // Threads：“死锁检测
  * <p>
  *     演示内建的“死锁检测(deadlocks)”函数。
  *
- *     本示例会每隔4秒钟打印“检测到的死锁信息”。
+ *     本示例会每隔4秒钟打印“检测到的死锁线程信息”。
  * </p>
  * This BTrace program demonstrates deadlocks built-in function.
  * This example prints deadlocks (if any) once every 4 seconds.
@@ -42,7 +42,7 @@ public class Deadlock {
 
     @OnTimer(4000) // 定时器
     public static void print() {
-        deadlocks(); // 如果“死锁”存在的话，则打印“检测到的死锁信息”
+        deadlocks(); // 如果“死锁线程”存在的话，则打印“检测到的死锁线程信息”和“死锁线程的调用栈信息”
     }
 
 }

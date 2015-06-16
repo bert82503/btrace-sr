@@ -29,18 +29,24 @@ import com.sun.btrace.annotations.*;
 import static com.sun.btrace.BTraceUtils.*;
 
 /**
- * Simple BTrace program that prints memory
- * usage once every 4 seconds. It is possible
- * to modify this to dump heap depending on 
- * used memory crossing a threshold or some other
- * such condition. [dumpHeap is a built-in function].
+ * <p>
+ *     每隔4秒打印“JVM内存”使用情况。
+ *
+ *     可以通过调整“已使用的内存阈值或一些其它条件”来改变转储“堆”的行为。（dumpHeap 是一个内建的方法）
+ * </p>
+ * Simple BTrace program that prints memory usage once every 4 seconds.
+ * It is possible to modify this to dump heap depending on
+ * used memory crossing a threshold or some other such condition. [dumpHeap is a built-in function].
  */
-@BTrace public class Memory {
-    @OnTimer(4000)
+@BTrace
+public class Memory {
+
+    @OnTimer(4000) // 定时器（每隔4秒触发一次）
     public static void printMem() {
         println("Heap:");
-        println(Sys.Memory.heapUsage());
+        println(Sys.Memory.heapUsage()); // 打印“堆内存”使用情况
         println("Non-Heap:");
-        println(Sys.Memory.nonHeapUsage());
+        println(Sys.Memory.nonHeapUsage()); // 打印“非堆内存”使用情况
     }
+
 }

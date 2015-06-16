@@ -48,7 +48,7 @@ public class FinalizeTracker {
     // 访问私有字段
     private static Field fdField =
             field(probeClassName, "fd"); // File Descriptor - handle to the open file
-    // field(...)：返回指定类中的特定字段对象
+    // Reflective.field(...)：返回指定类中的指定“字段”对象
 
     @OnTimer(4000) // 定时器
     public static void onTimer() {

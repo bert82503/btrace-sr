@@ -29,19 +29,27 @@ import com.sun.btrace.annotations.*;
 import static com.sun.btrace.BTraceUtils.*;
 
 /**
- * This BTrace class demonstrates that we can
- * probe into multiple classes and methods by a
- * single probe specification using regular
- * expressions for class and/or method names as
- * given below. In the example, we put probe into
- * all readXXX methods of all InputStream classes.
+ * <p>
+ *     本类演示了我们通过在“类和方法名上”使用“正则表达式”规范定义的“单个探测点”，
+ *     可以同时探测多个类和多个方法。
+ *
+ *     在本例中，我们将“探测点”植入到所有“InputStream”类的所有“readXXX”方法中。
+ * </p>
+ * This BTrace class demonstrates that we can probe into multiple classes and methods
+ * by a single probe specification using regular expressions
+ * for class and/or method names as given below.
+ * In the example, we put probe into all readXXX methods of all InputStream classes.
  */
-@BTrace public class MultiClass {
+@BTrace
+public class MultiClass {
+
     @OnMethod(
-        clazz="/java\\.io\\..*Input.*/",
-        method="/read.*/"
+        clazz="/java\\.io\\..*Input.*/", // 匹配“java.io”包下的所有满足“*Input*”正则的类
+        method="/read.*/" // 匹配所有满足“read*”正则的方法
     )
     public static void onread(@ProbeClassName String pcn) {
-        println(Strings.strcat("read on ", pcn));
+        // Strings.concat(str1, str2)：将“指定的两个字符串”连接在一起
+        println(Strings.strcat("read on ", pcn)); // 打印使用了哪个JDK IO类
     }
+
 }

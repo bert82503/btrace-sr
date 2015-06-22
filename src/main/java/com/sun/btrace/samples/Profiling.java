@@ -26,10 +26,18 @@
 package com.sun.btrace.samples;
 
 import com.sun.btrace.BTraceUtils;
-import com.sun.btrace.Profiler;
+import com.sun.btrace.Profiler; // 分析器
 import com.sun.btrace.annotations.*;
 
 /**
+ * <p>
+ *     本脚本演示了BTrace 1.2的新功能：
+ *     <ol>
+ *         <li>缩短的语法 - 当在类定义中省略“公共(public)”标识时，可以在声明方法和变量时安全地省略所有其它修饰符</li>
+ *         <li><b>@ProbeMethodName</b>注解的扩展语法 - 可以使用<b>fqn</b>参数来请求一个全路径方法名</li>
+ *         <li>性能分析支持 - 可以使用{@linkplain Profiler}实例以最小的可能代价来抓取性能分析数据</li>
+ *     </ol>
+ * </p>
  * This script demonstrates new capabilities built into BTrace 1.2
  * <ol>
  * <li>Shortened syntax - when omitting "public" identifier in the class 
@@ -43,9 +51,12 @@ import com.sun.btrace.annotations.*;
  * </ol>
  * @since 1.2
  */
-@BTrace class Profiling {
-    @Property
-    Profiler swingProfiler = BTraceUtils.Profiling.newProfiler();
+@BTrace
+//public
+class Profiling {
+
+    @Property // 使用本注解的“BTrace字段”会作为“动态JMX实体的属性”暴露给外界
+    Profiler swingProfiler = BTraceUtils.Profiling.newProfiler(); // BTraceRuntime.newProfiler() -> new MethodInvocationProfiler(600)
     
     @OnMethod(clazz="/javax\\.swing\\..*/", method="/.*/")
     void entry(@ProbeMethodName(fqn=true) String probeMethod) { 
@@ -53,12 +64,14 @@ import com.sun.btrace.annotations.*;
     }
     
     @OnMethod(clazz="/javax\\.swing\\..*/", method="/.*/", location=@Location(value=Kind.RETURN))
-    void exit(@ProbeMethodName(fqn=true) String probeMethod, @Duration long duration) { 
+    void exit(@ProbeMethodName(fqn=true) String probeMethod,
+              @Duration long duration) { // @Duration：用来标记“探测方法参数”作为“持续时间值的接收器”
         BTraceUtils.Profiling.recordExit(swingProfiler, probeMethod, duration);
     }
     
-    @OnTimer(5000)
+    @OnTimer(5000) // 定时器
     void timer() {
-        BTraceUtils.Profiling.printSnapshot("Swing performance profile", swingProfiler);
+        BTraceUtils.Profiling.printSnapshot("Swing performance profile", swingProfiler); // 打印“性能分析的镜像数据”
     }
+
 }

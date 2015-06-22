@@ -47,7 +47,7 @@ public class MultiClass {
         clazz="/java\\.io\\..*Input.*/", // 匹配“java.io”包下的所有满足“*Input*”正则的类
         method="/read.*/" // 匹配所有满足“read*”正则的方法
     )
-    public static void onread(@ProbeClassName String pcn) {
+    public static void onRead(@ProbeClassName String pcn) {
         // Strings.concat(str1, str2)：将“指定的两个字符串”连接在一起
         println(Strings.strcat("read on ", pcn)); // 打印使用了哪个JDK IO类
     }

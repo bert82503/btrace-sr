@@ -27,37 +27,49 @@ package com.sun.btrace.samples;
 
 import com.sun.btrace.annotations.*;
 import static com.sun.btrace.BTraceUtils.*;
-import com.sun.btrace.annotations.Export;
+import com.sun.btrace.annotations.Export; // 暴露“BTrace字段”
 
 /**
- * This sample creates a jvmstat counter and
- * increments it everytime Thread.start() is
- * called. This thread count may be accessed
- * from outside the process. The @Export annotated
- * fields are mapped to jvmstat counters. The counter
- * name is "btrace." + <className> + "." + <fieldName>
+ * <p>
+ *     本示例创建了一个“jvmstat计数器”并在每次“Thread.start()”被调用时递增。
+ *     本线程计数器可以在本进程之外被访问，被“@Export”注解的字段被映射到“jvmstat计数器”中。
+ *     “jvmstat计数器名称”是“"btrace." + <className> + "." + <fieldName>”。
+ * </p>
+ * This sample creates a jvmstat counter and increments it everytime Thread.start() is called.
+ * This thread count may be accessed from outside the process.
+ * The @Export annotated fields are mapped to jvmstat counters.
+ * The counter name is "btrace." + <className> + "." + <fieldName>
  */ 
-@BTrace public class ThreadCounter {
+@BTrace
+public class ThreadCounter {
 
     // create a jvmstat counter using @Export
+    // 使用“@Export”创建一个jvmstat计数器
+    // @Export：使用本注解的“BTrace字段”会使用这种机制将自己暴露给进程之外的工具（例如jvmstat）
     @Export private static long count;
 
+    /**
+     * 追踪线程的“Thread.start(...)”开始运行行为。
+     *
+     * @param t 新创建的线程
+     */
     @OnMethod(
         clazz="java.lang.Thread",
         method="start"
     ) 
-    public static void onnewThread(@Self Thread t) {
-        // updating counter is easy. Just assign to
-        // the static field!
+    public static void onNewThread(@Self Thread t) {
+        // updating counter is easy. Just assign to the static field!
+        // 更新计数器很容易，只需分配给静态字段！
         count++;
     }
 
     @OnTimer(2000) 
-    public static void ontimer() {
-        // we can access counter as "count" as well
-        // as from jvmstat counter directly.
+    public static void onTimer() {
+        // we can access counter as "count" as well as from jvmstat counter directly.
+        // 我们可以访问“计数器”作为“计数”或者直接从“jvmstat计数器”读取
         println(count);
-        // or equivalently ...
-        println(Counters.perfLong("btrace.com.sun.btrace.samples.ThreadCounter.count"));
+        // or equivalently ... (等价于...)
+        println(Counters.perfLong("btrace.com.sun.btrace.samples.ThreadCounter.count")); // 访问“jvmstat计数器”
     }
+
 }

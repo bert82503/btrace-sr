@@ -28,13 +28,17 @@ package com.sun.btrace.samples;
 import com.sun.btrace.annotations.*;
 import static com.sun.btrace.BTraceUtils.*;
 
-@BTrace public class SizeOf {
+@BTrace
+public class SizeOf {
+
     @OnMethod(
         clazz="javax.swing.JComponent",
         method="<init>"
-    ) 
-    public static void onnew(@Self Object obj) {
+    )
+    public static void onNew(@Self Object obj) {
         println(Strings.concat("object of: ", Reflective.name(Reflective.classOf(obj))));
+        // BTraceRuntime.sizeof(objectToSize)：返回“给定对象使用的存储大小”
         println(Strings.concat("size: ", Strings.str(sizeof(obj))));
     }
+
 }

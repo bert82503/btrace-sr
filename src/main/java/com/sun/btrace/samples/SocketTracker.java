@@ -35,8 +35,7 @@ import java.nio.channels.SocketChannel; // 一个可选择的“面向流连接�
  *     本示例追踪“所有服务器套接字的创建和客户端套接字的接收”信息。
  *     这里也展示了“如何使用共享的方法”。
  * </p>
- * This example tracks all server socket creations
- * and client socket accepts.
+ * This example tracks all server socket creations and client socket accepts.
  * <br/>
  * Also, it shows how to use shared methods.
  */

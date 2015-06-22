@@ -29,22 +29,37 @@ import com.sun.btrace.annotations.*;
 import static com.sun.btrace.BTraceUtils.*;
 
 /**
- * This BTrace script demonstrates that it is okay
- * to trace bootstrap classes and call the same 
- * inside the trace actions. In this example, we insert
- * a probe into System.getProperty() method and call 
- * System.getProperty [through property() built-in function]
- * without getting into infinite recursion. A thread local 
- * flag is used by BTrace to avoid infinite recursion here.
+ * <p>
+ *     本脚本演示了追踪系统引导类是可行的，并在追踪行为方法中以相同的方式调用。
+ *
+ *     在本示例中，我们在System.getProperty()方法中插入一个探测点，
+ *     并调用内建的Sys.Env.property()方法，而无须无限地递归获取。
+ *     一个线程本地标识在这里被用于避免无限地递归。
+ * </p>
+ * This BTrace script demonstrates that it is okay to trace bootstrap classes
+ * and call the same inside the trace actions.
+ *
+ * In this example, we insert a probe into System.getProperty() method and
+ * call System.getProperty [through Sys.Env.property() built-in function]
+ * without getting into infinite recursion.
+ * A thread local flag is used by BTrace to avoid infinite recursion here.
  */
-@BTrace public class SysProp {
+@BTrace
+public class SysProp {
+
+    /**
+     * 通过追踪“System.getProperty(...)”的行为来打印指定的系统属性。
+     *
+     * @param name 属性名
+     */
     @OnMethod(
         clazz="java.lang.System",
         method="getProperty"
     )
     public static void onGetProperty(String name) {
         println(name);
-        // call property safely here.
-        println(Sys.Env.property(name));
-    } 
+        // call property safely here. (安全地调用属性方法)
+        println(Sys.Env.property(name)); // 打印“指定键的系统属性”
+    }
+
 }	

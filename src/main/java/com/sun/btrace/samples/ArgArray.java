@@ -45,6 +45,9 @@ import static com.sun.btrace.BTraceUtils.*;
 @BTrace
 public class ArgArray {
 
+    /**
+     * 追踪“java.io.*.read*(...)”的行为。
+     */
     @OnMethod(
         // 多个"类/方法"匹配
         clazz="/java\\.io\\..*/", // 匹配在"java.io"包中的任何类

@@ -40,7 +40,8 @@ import static com.sun.btrace.BTraceUtils.*;
 @BTrace
 public class JMap {
 
-    static { // 静态语句块
+    // “静态语句块”保证代码只被执行一次
+    static {
         String dumpedHeapFileName; // 保存“Java内存堆快照”的文件名
         if (Sys.$length() == 3) { // 命令行参数的数量
             dumpedHeapFileName = Sys.$(2); // 返回第2个命令行参数

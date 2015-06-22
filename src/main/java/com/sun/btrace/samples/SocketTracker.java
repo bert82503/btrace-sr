@@ -47,11 +47,11 @@ public class SocketTracker {
     @TLS private static SocketAddress sockAddr; // 客户端的套接字地址
 
     /**
-     * 监视“服务端的套接字请求连接信息”。
+     * 追踪“服务端的套接字请求连接信息”（new ServerSocket(...)）。
      *
      * @param self 服务端套接字对象
      * @param p 服务端的请求端口号
-     * @param backlog
+     * @param backlog 请求队列长度
      * @param bindAddr 服务端的互联网协议（IP）地址
      */
     @OnMethod(
@@ -81,6 +81,9 @@ public class SocketTracker {
         }
     }
 
+    /**
+     * 追踪“ServerSocket.bind(...)”的行为。
+     */
     @OnMethod(
         clazz="java.net.ServerSocket",
         method="bind" // 绑定到服务端的IP地址和端口号
@@ -99,6 +102,9 @@ public class SocketTracker {
         socketBound();
     }
 
+    /**
+     * 追踪“ServerSocketChannelImpl.bind(...)”的行为。
+     */
     @OnMethod(
         clazz="sun.nio.ch.ServerSocketChannelImpl", // “客户端套接字通道”实现类
         method="bind" // 绑定到客户端的IP地址和端口号
@@ -117,6 +123,9 @@ public class SocketTracker {
         socketBound();
     }
 
+    /**
+     * 追踪“ServerSocket.accept(...)”的行为。
+     */
     @OnMethod(
         clazz="java.net.ServerSocket",
         method="accept", // 服务端接收到一个来自客户端的请求
@@ -126,6 +135,9 @@ public class SocketTracker {
         clientSocketAccept(sock);
     }
 
+    /**
+     * 追踪“ServerSocketChannelImpl.socket(...)”的行为。
+     */
     @OnMethod(
         clazz="sun.nio.ch.ServerSocketChannelImpl",
         method="socket", // 创建客户端到服务端的连接
@@ -135,6 +147,9 @@ public class SocketTracker {
         println(Strings.strcat("server socket at ", Strings.str(serverSock)));
     }
 
+    /**
+     * 追踪“ServerSocketChannelImpl.accept(...)”的行为。
+     */
     @OnMethod(
         clazz="sun.nio.ch.ServerSocketChannelImpl",
         method="accept", // 客户端接收到来自服务端的响应内容

@@ -51,6 +51,14 @@ public class SocketTracker1 {
     @TLS private static InetAddress inetAddr;
     @TLS private static SocketAddress sockAddr;
 
+    /**
+     * 追踪“服务端的套接字请求连接信息”（new ServerSocket(...)）。
+     *
+     * @param self 服务端套接字对象
+     * @param p 服务端的请求端口号
+     * @param backlog 请求队列长度
+     * @param bindAddr 服务端的互联网协议（IP）地址
+     */
     @OnMethod(
         clazz="java.net.ServerSocket",
         method="<init>"
@@ -78,6 +86,9 @@ public class SocketTracker1 {
         }
     }
 
+    /**
+     * 追踪“java.net.socket.server-socket-creator”探测点的行为。
+     */
     // @OnProbe：本注解以一种更抽象的方式来指定“一个BTrace探测点”
     @OnProbe(
         namespace="java.net.socket",
@@ -87,6 +98,9 @@ public class SocketTracker1 {
         println(Strings.strcat("server socket at ", Strings.str(serverSock)));
     }
 
+    /**
+     * 追踪“java.net.socket.bind”探测点的行为。
+     */
     @OnProbe(
         namespace="java.net.socket",
         name="bind" // 服务端套接字绑定行为
@@ -95,6 +109,9 @@ public class SocketTracker1 {
         sockAddr = addr;
     }
 
+    /**
+     * 追踪“java.net.socket.bind-return”探测点的行为。
+     */
     @OnProbe(
         namespace="java.net.socket",
         name="bind-return" // 服务端套接字绑定返回行为
@@ -106,6 +123,9 @@ public class SocketTracker1 {
         }
     }
 
+    /**
+     * 追踪“java.net.socket.accept-return”探测点的行为。
+     */
     @OnProbe(
         namespace="java.net.socket",
         name="accept-return" // 客户端套接字接收返回行为

@@ -55,6 +55,9 @@ public class FinalizeTracker {
         runFinalization(); // 定期地运行任何“对象的终止方法”（禁止在线上操作！）
     }
 
+    /**
+     * 追踪“FileInputStream.finalize(...)”的行为。
+     */
     @OnMethod(
             clazz = probeClassName,
             method = "finalize" // 当无实例引用它时，确保“文件输入流的close方法”被调用。（垃圾回收机制）
@@ -70,6 +73,9 @@ public class FinalizeTracker {
         println("==========");
     }
 
+    /**
+     * 追踪“FileInputStream.close(...)”的行为。
+     */
     @OnMethod(
             clazz = probeClassName,
             method = "close" // 关闭本文件输入流，并释放任何与该文件流相关的系统资源。

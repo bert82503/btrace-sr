@@ -45,6 +45,11 @@ import com.sun.btrace.annotations.*;
 @BTrace // 标识一个“BTrace类”
 public class Classload {
 
+    /**
+     * 追踪“ClassLoader.defineClass(...)”的行为。
+     *
+     * @param cl 由“本类加载器”加载的类实例
+     */
     @OnMethod( // 指定一个"探测点"（追踪行为方法）
             clazz = "+java.lang.ClassLoader", // 待探测或追踪的“全路径类名/正则匹配/注解类”
             method = "defineClass", // 待探测或追踪的“方法名/正则匹配/注解方法”

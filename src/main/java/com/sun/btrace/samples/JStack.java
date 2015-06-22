@@ -41,6 +41,7 @@ import static com.sun.btrace.BTraceUtils.Threads.*;
 @BTrace
 public class JStack {
 
+    // “静态语句块”保证代码只被执行一次
     static {
         deadlocks(false); // 只打印“检测到的死锁线程信息”，不打印“死锁线程的调用栈信息”
         jstackAll(); // 打印“所有Java线程的调用栈信息”

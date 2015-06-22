@@ -41,6 +41,7 @@ import static com.sun.btrace.BTraceUtils.*;
 @BTrace
 public class JInfo {
 
+    // “静态语句块”保证代码只被执行一次
     static {
         println("System Properties:");
         printProperties(); // Sys.Env.printProperties()：打印“所有系统属性”信息

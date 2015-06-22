@@ -61,7 +61,7 @@ public class OnThrow {
             method="<init>" // 匹配“构造器”方法
 //        location=@Location(Kind.ENTRY) // “构造器方法进入”的探测位置
     ) // Throwable()
-    public static void onConstructor(@Self Throwable self) {
+    public static void onThrowable(@Self Throwable self) {
         currentException = self;
     }
 
@@ -69,7 +69,7 @@ public class OnThrow {
             clazz="java.lang.Throwable",
             method="<init>"
     ) // Throwable(String message)
-    public static void onConstructor(@Self Throwable self, String message) {
+    public static void onThrowable(@Self Throwable self, String message) {
         currentException = self;
     }
 
@@ -77,7 +77,7 @@ public class OnThrow {
             clazz="java.lang.Throwable",
             method="<init>"
     ) // Throwable(String message, Throwable cause)
-    public static void onConstructor(@Self Throwable self, String message, Throwable cause) {
+    public static void onThrowable(@Self Throwable self, String message, Throwable cause) {
         currentException = self;
     }
 
@@ -86,7 +86,7 @@ public class OnThrow {
             method="<init>"
 //        location=@Location(Kind.ENTRY) // “构造器方法进入”的探测位置
     ) // Throwable(Throwable cause)
-    public static void onConstructor(@Self Throwable self, Throwable cause) {
+    public static void onThrowable(@Self Throwable self, Throwable cause) {
         currentException = self;
     }
 
@@ -97,7 +97,7 @@ public class OnThrow {
             method="<init>",
             location=@Location(Kind.RETURN) // “构造器方法返回”的探测位置
     )
-    public static void onConstructorReturn() {
+    public static void onThrowableReturn() {
         if (currentException != null) {
             Threads.jstack(currentException); // 打印“给定异常对象的调用栈信息”
             println("=====================");

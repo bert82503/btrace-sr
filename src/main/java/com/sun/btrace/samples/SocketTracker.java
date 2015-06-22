@@ -27,25 +27,39 @@ package com.sun.btrace.samples;
 
 import com.sun.btrace.annotations.*;
 import static com.sun.btrace.BTraceUtils.*;
-import java.net.*;
-import java.nio.channels.SocketChannel;
+import java.net.*; // 与网络相关的包
+import java.nio.channels.SocketChannel; // 一个可选择的“面向流连接的套接字通道”
 
 /**
+ * <p>
+ *     本示例追踪“所有服务器套接字的创建和客户端套接字的接收”信息。
+ *     这里也展示了“如何使用共享的方法”。
+ * </p>
  * This example tracks all server socket creations
  * and client socket accepts.
  * <br/>
  * Also, it shows how to use shared methods.
  */
-@BTrace public class SocketTracker {
-    @TLS private static int port = -1;
-    @TLS private static InetAddress inetAddr;
-    @TLS private static SocketAddress sockAddr;
+@BTrace
+public class SocketTracker {
 
+    @TLS private static int port = -1; // 服务端的请求端口号
+    @TLS private static InetAddress inetAddr; // 服务端的互联网协议（IP）地址
+    @TLS private static SocketAddress sockAddr; // 客户端的套接字地址
+
+    /**
+     * 监视“服务端的套接字请求连接信息”。
+     *
+     * @param self 服务端套接字对象
+     * @param p 服务端的请求端口号
+     * @param backlog
+     * @param bindAddr 服务端的互联网协议（IP）地址
+     */
     @OnMethod(
-        clazz="java.net.ServerSocket",
-        method="<init>"
+        clazz="java.net.ServerSocket", // 服务端套接字请求连接
+        method="<init>" // 构造器方法
     )
-    public static void onServerSocket(@Self ServerSocket self, 
+    public static void onServerSocket(@Self ServerSocket self,
         int p, int backlog, InetAddress bindAddr) {
         port = p;
         inetAddr = bindAddr;
@@ -53,24 +67,24 @@ import java.nio.channels.SocketChannel;
 
     @OnMethod(
         clazz="java.net.ServerSocket",
-        method="<init>",
-        type="void (int, int, java.net.InetAddress)",
-        location=@Location(Kind.RETURN)
+        method="<init>", // 构造器方法
+        type="void (int, int, java.net.InetAddress)", // 方法类型声明
+        location=@Location(Kind.RETURN) // 方法返回时执行
     )
     public static void onSockReturn() {
         if (port != -1) {
-            println(Strings.strcat("server socket at ", Strings.str(port)));
+            println(Strings.strcat("server socket port at ", Strings.str(port)));
             port = -1;
         }
         if (inetAddr != null) {
-            println(Strings.strcat("server socket at ", Strings.str(inetAddr)));
+            println(Strings.strcat("server socket address at ", Strings.str(inetAddr)));
             inetAddr = null;
         }
     }
 
     @OnMethod(
         clazz="java.net.ServerSocket",
-        method="bind"
+        method="bind" // 绑定到服务端的IP地址和端口号
     )
     public static void onBind(@Self ServerSocket self, SocketAddress addr, int backlog) {
         sockAddr = addr;
@@ -79,16 +93,16 @@ import java.nio.channels.SocketChannel;
     @OnMethod(
         clazz="java.net.ServerSocket",
         method="bind",
-        type="void (java.net.SocketAddress, int)",
-        location=@Location(Kind.RETURN)
+        type="void (java.net.SocketAddress, int)", // 方法类型声明
+        location=@Location(Kind.RETURN) // 方法返回时执行
     )
     public static void onBindReturn() {
         socketBound();
     }
 
     @OnMethod(
-        clazz="sun.nio.ch.ServerSocketChannelImpl",
-        method="bind"
+        clazz="sun.nio.ch.ServerSocketChannelImpl", // “客户端套接字通道”实现类
+        method="bind" // 绑定到客户端的IP地址和端口号
     )
     public static void onBind(@Self Object self, SocketAddress addr, int backlog) {
         sockAddr = addr;
@@ -106,41 +120,48 @@ import java.nio.channels.SocketChannel;
 
     @OnMethod(
         clazz="java.net.ServerSocket",
-        method="accept",
+        method="accept", // 服务端接收到一个来自客户端的请求
         location=@Location(Kind.RETURN)
     )
-    public static void onAcceptReturn(@Return Socket sock) {
-        clientSocketAcc(sock);
+    public static void onAcceptReturn(@Return Socket sock) { // 标记“一个方法参数”作为“被探测方法的返回值”
+        clientSocketAccept(sock);
     }
 
     @OnMethod(
         clazz="sun.nio.ch.ServerSocketChannelImpl",
-        method="socket",
+        method="socket", // 创建客户端到服务端的连接
         location=@Location(Kind.RETURN)
     )
-    public static void onSocket(@Return ServerSocket ssock) {
-        println(Strings.strcat("server socket at ", Strings.str(ssock)));
+    public static void onSocket(@Return ServerSocket serverSock) { // 标记“一个方法参数”作为“被探测方法的返回值”
+        println(Strings.strcat("server socket at ", Strings.str(serverSock)));
     }
 
     @OnMethod(
         clazz="sun.nio.ch.ServerSocketChannelImpl",
-        method="accept",
+        method="accept", // 客户端接收到来自服务端的响应内容
         location=@Location(Kind.RETURN)
     )
-    public static void onAcceptReturn(@Return SocketChannel sockChan) {
-        clientSocketAcc(sockChan);
+    public static void onAcceptReturn(@Return SocketChannel sockChannel) { // 标记“一个方法参数”作为“被探测方法的返回值”
+        clientSocketAccept(sockChannel);
     }
-    
+
+    /**
+     * 打印“套接字成功绑定的信息（IP地址和端口号）”。
+     */
     private static void socketBound() {
         if (sockAddr != null) {
             println(Strings.strcat("server socket bind ", Strings.str(sockAddr)));
             sockAddr = null;
         }
     }
-    
-    private static void clientSocketAcc(Object obj) {
+
+    /**
+     * 打印“服务端成功接收到客户端套接字的请求信息”。
+     */
+    private static void clientSocketAccept(Object obj) {
         if (obj != null) {
             println(Strings.strcat("client socket accept ", Strings.str(obj)));
         }
     }
+
 }

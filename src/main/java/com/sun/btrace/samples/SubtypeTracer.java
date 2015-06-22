@@ -29,19 +29,29 @@ import com.sun.btrace.annotations.*;
 import static com.sun.btrace.BTraceUtils.*;
 
 /**
+ * <p>
+ *     一个简单的示例：演示了在@{@linkplain OnMethod}注解的“clazz”属性中
+ *     通过“+foo”正则模式来匹配子类型。
+ * </p>
  * A simple example that demonstrates subtype matching by +foo pattern
  * in "clazz" attribute of @OnMethod annotation.
  */
 @BTrace
 public class SubtypeTracer {
+
+    /**
+     * 追踪{@linkplain Runnable}及其子类的“Runnable.run(...)”行为。
+     */
     @OnMethod(
         clazz="+java.lang.Runnable",
         method="run"
     )
     public static void onRun(@ProbeClassName String pcn, @ProbeMethodName String pmn) {
         // on every Runnable.run() method entry print class.method
+        // 在每次Runnable.run()方法进入时，打印“类名.方法名（class.method）”
         print(pcn);
         print('.');
         println(pmn);
     }
+
 }

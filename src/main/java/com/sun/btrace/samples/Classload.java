@@ -46,7 +46,7 @@ import com.sun.btrace.annotations.*;
 public class Classload {
 
     /**
-     * 追踪“ClassLoader.defineClass(...)”的行为。
+     * 追踪类加载器及其子类的“ClassLoader.defineClass(...)”行为。
      *
      * @param cl 由“本类加载器”加载的类实例
      */

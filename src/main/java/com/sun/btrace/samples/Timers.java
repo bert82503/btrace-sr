@@ -29,25 +29,30 @@ import com.sun.btrace.annotations.*;
 import static com.sun.btrace.BTraceUtils.*;
 
 /**
- * Demonstrates multiple timer probes with different
- * periods to fire.
+ * <p>
+ *     演示多个由不同周期触发的定时器探测点。
+ * </p>
+ * Demonstrates multiple timer probes with different periods to fire.
  */
-@BTrace public class Timers {
+@BTrace
+public class Timers {
 
-   // when starting print the target VM version and start time
-   static {
-       println(Strings.strcat("vm version ", Sys.VM.vmVersion()));
-       println(Strings.strcat("vm starttime ", Strings.str(Sys.VM.vmStartTime())));
-   }
+    // “静态语句块”保证代码只在本类被加载时被执行一次
+    // when starting print the target VM version and start time
+    // 当程序启动时，打印目标Java虚拟机的版本和启动时间
+    static {
+        println(Strings.strcat("vm version ", Sys.VM.vmVersion())); // 打印JVM的实现版本
+        println(Strings.strcat("vm startTime ", Strings.str(Sys.VM.vmStartTime()))); //打印JVM的启动时间（ms）
+    }
 
-   @OnTimer(1000) 
-   public static void f() {
-     println(Strings.strcat("1000 msec: ", Strings.str(Sys.VM.vmUptime())));
-   }
+    @OnTimer(1000)
+    public static void vmUptime() {
+        println(Strings.strcat("1000 msec: ", Strings.str(Sys.VM.vmUptime()))); // 打印JVM的运行时间（ms）
+    }
 
-   @OnTimer(3000) 
-   public static void f1() {
-     println(Strings.strcat("3000 msec: ", Strings.str(Time.millis())));
-   }
+    @OnTimer(3000)
+    public static void currentTimeMillis() {
+        println(Strings.strcat("3000 msec: ", Strings.str(Time.millis()))); // 打印系统的当前时间（ms）
+    }
 
 }

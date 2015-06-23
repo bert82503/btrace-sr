@@ -48,7 +48,7 @@ import static com.sun.btrace.BTraceUtils.*;
 public class SysProp {
 
     /**
-     * 通过追踪“System.getProperty(...)”的行为来打印指定的系统属性。
+     * 通过追踪“System.getProperty(String key)”的行为来打印指定的系统属性。
      *
      * @param name 属性名
      */

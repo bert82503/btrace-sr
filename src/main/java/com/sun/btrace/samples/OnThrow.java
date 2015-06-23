@@ -52,6 +52,9 @@ public class OnThrow {
     // 注意：不能存储它到“一个全局变量”中！
     @TLS static Throwable currentException;
 
+    /**
+     * 追踪“new Throwable()”的异常信息行为。
+     */
     // introduce probe into every constructor of java.lang.Throwable
     // class and store "this" in the thread local variable.
     // 在“java.lang.Throwable”类的每个构造器中引入“探测点”，
@@ -65,6 +68,9 @@ public class OnThrow {
         currentException = self;
     }
 
+    /**
+     * 追踪“new Throwable(String message)”的异常信息行为。
+     */
     @OnMethod(
             clazz="java.lang.Throwable",
             method="<init>"
@@ -73,6 +79,9 @@ public class OnThrow {
         currentException = self;
     }
 
+    /**
+     * 追踪“new Throwable(String message, Throwable cause)”的异常信息行为。
+     */
     @OnMethod(
             clazz="java.lang.Throwable",
             method="<init>"
@@ -81,6 +90,9 @@ public class OnThrow {
         currentException = self;
     }
 
+    /**
+     * 追踪“new Throwable(Throwable cause)”的异常信息行为。
+     */
     @OnMethod(
             clazz="java.lang.Throwable",
             method="<init>"

@@ -56,7 +56,7 @@ public class FinalizeTracker {
     }
 
     /**
-     * 追踪“FileInputStream.finalize(...)”的行为。
+     * 追踪“FileInputStream.finalize()”的行为。
      */
     @OnMethod(
             clazz = probeClassName,
@@ -74,7 +74,7 @@ public class FinalizeTracker {
     }
 
     /**
-     * 追踪“FileInputStream.close(...)”的行为。
+     * 追踪“FileInputStream.close()”的行为。
      */
     @OnMethod(
             clazz = probeClassName,

@@ -40,7 +40,7 @@ import static com.sun.btrace.BTraceUtils.*;
 public class SubtypeTracer {
 
     /**
-     * 追踪{@linkplain Runnable}及其子类的“Runnable.run(...)”行为。
+     * 追踪{@linkplain Runnable}及其子类的“Runnable.run()”行为。
      */
     @OnMethod(
         clazz="+java.lang.Runnable",

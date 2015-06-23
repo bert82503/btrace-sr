@@ -48,7 +48,7 @@ public class LogTracer {
     private static Field msgField = Reflective.field("java.util.logging.LogRecord", "message");
 
     /**
-     * 通过追踪“Logger.log(...)”的行为来打印日志信息。
+     * 通过追踪“Logger.log(LogRecord record)”的行为来打印日志信息。
      *
      * @param self 日志实例（<code>Logger</code>）
      * @param record 日志记录实例（<code>LogRecord</code>）

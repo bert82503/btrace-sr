@@ -46,7 +46,7 @@ public class ThreadCounterBean {
     private static long count;
 
     /**
-     * 追踪线程的“Thread.start(...)”开始运行行为。
+     * 追踪线程的“Thread.start()”开始运行行为。
      *
      * @param t 新创建的线程
      */

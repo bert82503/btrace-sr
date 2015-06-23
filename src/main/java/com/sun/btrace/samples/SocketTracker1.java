@@ -52,7 +52,7 @@ public class SocketTracker1 {
     @TLS private static SocketAddress sockAddr;
 
     /**
-     * 追踪“服务端的套接字请求连接信息”（new ServerSocket(...)）。
+     * 追踪“服务端的套接字请求连接信息”（new ServerSocket(int port, int backlog, InetAddress bindAddr)）。
      *
      * @param self 服务端套接字对象
      * @param p 服务端的请求端口号

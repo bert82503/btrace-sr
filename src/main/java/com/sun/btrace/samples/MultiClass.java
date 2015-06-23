@@ -43,6 +43,9 @@ import static com.sun.btrace.BTraceUtils.*;
 @BTrace
 public class MultiClass {
 
+    /**
+     * 追踪“java.io.*Input*.read*(...)”的行为。
+     */
     @OnMethod(
         clazz="/java\\.io\\..*Input.*/", // 匹配“java.io”包下的所有满足“*Input*”正则的类
         method="/read.*/" // 匹配所有满足“read*”正则的方法

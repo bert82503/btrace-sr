@@ -33,7 +33,7 @@ import com.sun.btrace.annotations.Export; // 暴露“BTrace字段”
  * <p>
  *     本示例创建了一个“jvmstat计数器”并在每次“Thread.start()”被调用时递增。
  *     本线程计数器可以在本进程之外被访问，被“@Export”注解的字段被映射到“jvmstat计数器”中。
- *     “jvmstat计数器名称”是“"btrace." + <className> + "." + <fieldName>”。
+ *     “jvmstat计数器名称”是 "btrace." + <className> + "." + <fieldName>
  * </p>
  * This sample creates a jvmstat counter and increments it everytime Thread.start() is called.
  * This thread count may be accessed from outside the process.
@@ -45,8 +45,8 @@ public class ThreadCounter {
 
     // create a jvmstat counter using @Export
     // 使用“@Export”创建一个jvmstat计数器
-    // @Export：使用本注解的“BTrace字段”会使用这种机制将自己暴露给进程之外的工具（例如jvmstat）
-    @Export private static long count;
+    @Export // 使用本注解的“BTrace字段”会使用这种机制将自己暴露给进程之外的工具（例如jvmstat）
+    private static long count;
 
     /**
      * 追踪线程的“Thread.start(...)”开始运行行为。

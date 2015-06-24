@@ -28,28 +28,34 @@ import com.sun.btrace.annotations.*;
 import static com.sun.btrace.BTraceUtils.*;
 
 /**
- * This script demonstrates the possibility to intercept
- * array creations that are about to be executed from the body of
- * a certain method. This is achieved by using the {@linkplain Kind#NEWARRAY}
- * location value.
+ * <p>
+ *     本脚本演示了拦截数组创建的可能性，它会在特定的方法体内被执行。
+ *     这里通过使用“{@linkplain Kind#NEWARRAY}位置值”来完成。
+ * </p>
+ * This script demonstrates the possibility to intercept array creations
+ * that are about to be executed from the body of a certain method.
+ * This is achieved by using the {@linkplain Kind#NEWARRAY} location value.
  */
-@BTrace public class NewArray {
-    // component count
+@BTrace
+public class NewArray {
+
+    // component count (组件计数器)
     private static volatile long count;
 
     @OnMethod(
-      clazz="/.*/", // tracking in all classes; can be restricted to specific user classes
-      method="/.*/", // tracking in all methods; can be restricted to specific user methods
-      location=@Location(value=Kind.NEWARRAY, clazz="char")
+      clazz="/.*/", // tracking in all classes; can be restricted to specific user classes (追踪所有类型)
+      method="/.*/", // tracking in all methods; can be restricted to specific user methods (追踪所有方法)
+      location=@Location(value=Kind.NEWARRAY, clazz="char") // 在“新的字符数组”创建时
     )
-    public static void onnew(@ProbeClassName String pcn, @ProbeMethodName String pmn, String arrType, int dim) {
+    public static void onNew(@ProbeClassName String pcn, @ProbeMethodName String pmn,
+                             String arrType, int dim) {
         // pcn - allocation place class name
         // pmn - allocation place method name
-        // **** following two parameters MUST always be in this order
-        // arrType - the actual array type
-        // dim - the array dimension
+        // **** following two parameters MUST always be in this order (下面的两个参数必须是这样的顺序)
+        // arrType - the actual array type (真实的数组类型)
+        // dim - the array dimension (数组维度)
 
-        // increment counter on new array
+        // increment counter on new array (新数组的递增计数器)
         count++;
     }
 
@@ -58,4 +64,5 @@ import static com.sun.btrace.BTraceUtils.*;
         // print the counter
         println(Strings.strcat("char[] count = ", str(count)));
     }
+
 }

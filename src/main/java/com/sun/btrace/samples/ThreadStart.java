@@ -28,21 +28,30 @@ package com.sun.btrace.samples;
 import com.sun.btrace.annotations.*;
 import static com.sun.btrace.BTraceUtils.*;
 
-/*
- * This BTrace script inserts a probe into
- * method entry of java.lang.Thread.start() method.
- * At each Thread.start(), it raises a DTrace probe
- * in addition to printing the name of the thread.
- * A D-script like jthread.d may be used to get the
- * associated DTrace probe events.
+/**
+ * <p>
+ *     本脚本插入一个探测点到“Thread.start()”方法的方法入口点。
+ *     在每一次Thread.start()被调用时，它会触发一个“DTrace探测点”并打印“线程的名称”。
+ *     一个“DTrace脚本文件”（jthread.d）可能被用于获取相关的“DTrace探测点事件”。
+ * </p>
+ * This BTrace script inserts a probe into method entry of java.lang.Thread.start() method.
+ * At each Thread.start(), it raises a DTrace probe in addition to printing the name of the thread.
+ * A D-script like jthread.d may be used to get the associated DTrace probe events.
  */
-@BTrace public class ThreadStart {
+@DTraceRef("jthread.d") // 关联一个“DTrace脚本文件（D-script）”
+@BTrace
+public class ThreadStart {
+
+    /**
+     * 追踪线程开始执行的“Thread.start()”行为。
+     */
     @OnMethod(
         clazz="java.lang.Thread",
         method="start"
     ) 
-    public static void onnewThread(@Self Thread t) {
+    public static void onNewThread(@Self Thread t) {
         D.probe("jthreadstart", Threads.name(t));
-        println(Strings.strcat("starting ", Threads.name(t)));
+        println(Strings.strcat("starting ", Threads.name(t))); // 验证“DTrace脚本文件”打印的线程名称是否正确
     }
+
 }

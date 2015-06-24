@@ -34,7 +34,7 @@ import java.net.*;
  *     本示例打印每次“URL.openConnection(...)”成功返回的行为。
  *     此外，在DTrace可用的平台上，它会运行“jurls.d”DTrace脚本文件，
  *     该脚本会收集通过“btrace:::event探测点”访问的URL请求历史记录。
- *     通过本BTrace程序，我们打开了“DTrace探测点”（调用dtraceProbe(...)方法）。
+ *     通过本BTrace程序，我们触发了“DTrace探测点”（调用dtraceProbe(...)方法）。
  *
  *     注意：这可能与直接使用BTrace程序本身实现历史记录的功能很相似（见 Histogram.java）。
  *     但是，本示例展示了“DTrace/BTrace”集成的功能。

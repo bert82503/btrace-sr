@@ -1,3 +1,4 @@
+#!/usr/sbin/dtrace -s
 
 /*
  * 只要“btrace:::event”探测点作为第一个参数被“java-url-open”触发时，
@@ -8,7 +9,10 @@
  */
 
 btrace$target:::event
-/ copyinstr(arg0) == "java-url-open" /
+/
+    copyinstr(arg0) == "java-url-open" &&
+    arg1 != NULL
+/
 {
     @[copyinstr(arg1)] = count();
 }

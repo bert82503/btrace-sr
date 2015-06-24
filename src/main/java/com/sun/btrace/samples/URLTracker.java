@@ -87,7 +87,7 @@ public class URLTracker {
         if (url != null) {
             println(Strings.strcat("open ", Strings.str(url)));
             // D：Wraps the dtrace related BTrace utility methods
-            // D：包装与“BTrace”相关的“DTrace”辅助方法
+            // D：包装与“DTrace”相关的BTrace辅助方法
             // D.probe(...)：BTrace到DTrace通信通道
             D.probe("java-url-open", Strings.str(url));
             url = null;

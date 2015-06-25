@@ -32,8 +32,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <p>
- *     本示例收集了由追踪的程序创建的JComponets的历史数据。
- *     但是，本历史数据仅在客户端触发事件时被打印。
+ *     本示例收集了由追踪的程序创建的JComponets的历史记录。
+ *     但是，历史记录仅在客户端触发事件时被打印。
  * </p>
  * This sample collects history of javax.swing.JComponets created by traced app.
  * But, the history is printed only on event (from client).
@@ -49,12 +49,12 @@ public class HistogramOnEvent {
     ) 
     public static void onNewObject(@Self Object obj) {
         String className = name(classOf(obj));
-        AtomicInteger componentCounter = get(history, className);
-        if (componentCounter == null) {
-            componentCounter = newAtomicInteger(1);
-            put(history, className, componentCounter);
+        AtomicInteger classNameCounter = get(history, className);
+        if (classNameCounter == null) {
+            classNameCounter = newAtomicInteger(1);
+            put(history, className, classNameCounter);
         } else {
-            incrementAndGet(componentCounter);
+            incrementAndGet(classNameCounter);
         }     
     }
 

@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicInteger; // 原子变量
 /**
  * <p>
  *     本示例通过追踪的程序收集了“JComponets”创建的历史记录。
- *     本历史记录会每隔4秒被打印一次。
+ *     历史记录会每隔4秒被打印一次。
  * </p>
  * This sample collects histogram of javax.swing.JComponets created by traced app.
  * The histogram is printed once every 4 seconds.

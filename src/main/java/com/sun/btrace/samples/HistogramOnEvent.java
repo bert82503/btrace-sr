@@ -31,32 +31,39 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * This sample collects histogram of javax.swing.JComponets
- * created by traced app. But, the histogram is printed only
- * on event (from client).
+ * <p>
+ *     本示例收集了由追踪的程序创建的JComponets的历史数据。
+ *     但是，本历史数据仅在客户端触发事件时被打印。
+ * </p>
+ * This sample collects history of javax.swing.JComponets created by traced app.
+ * But, the history is printed only on event (from client).
  */
-@BTrace public class HistogramOnEvent {
-   private static Map<String, AtomicInteger> histo = newHashMap();
+@BTrace
+public class HistogramOnEvent {
+
+   private static Map<String, AtomicInteger> history = newHashMap();
 
     @OnMethod(
         clazz="javax.swing.JComponent",
         method="<init>"
     ) 
-    public static void onnewObject(@Self Object obj) {
-        String cn = name(classOf(obj));
-        AtomicInteger ai = get(histo, cn);
-        if (ai == null) {
-            ai = newAtomicInteger(1);
-            put(histo, cn, ai);
+    public static void onNewObject(@Self Object obj) {
+        String className = name(classOf(obj));
+        AtomicInteger componentCounter = get(history, className);
+        if (componentCounter == null) {
+            componentCounter = newAtomicInteger(1);
+            put(history, className, componentCounter);
         } else {
-            incrementAndGet(ai);
+            incrementAndGet(componentCounter);
         }     
     }
 
     @OnEvent
     public static void print() {
-        if (size(histo) != 0) {
-            printNumberMap("Component Histogram", histo);
+//        if (size(history) != 0) {
+        if (!isEmpty(history)) {
+            printNumberMap("Component Histogram", history);
         }
     }
+
 }
